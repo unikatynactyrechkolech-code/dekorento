@@ -1,65 +1,171 @@
+import Link from "next/link";
 import Image from "next/image";
+import { products } from "@/lib/products";
+import ProductCard from "@/components/ProductCard";
+
+// Free Unsplash imagery — party / event decoration & furniture rental
+const HERO =
+  "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=1600&q=85";
+
+const CAT_LARGE = {
+  title: "Glitter & Flitry",
+  href: "/produkty?cat=Glitter%20%26%20Flitry",
+  img: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1400&q=85",
+};
+const CAT_TOP = {
+  title: "Látková pozadí",
+  href: "/produkty?cat=L%C3%A1tkov%C3%A1%20pozad%C3%AD",
+  img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1200&q=85",
+  bg: "#eeece8",
+};
+const CAT_BOT = {
+  title: "Tematická pozadí",
+  href: "/produkty?cat=Tematick%C3%A1%20pozad%C3%AD",
+  img: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=85",
+  bg: "#f5f3ef",
+};
+
+const BRANDS = [
+  { name: "VOGUE", className: "font-serif text-3xl tracking-[0.15em] font-bold" },
+  { name: "elle", className: "font-serif text-4xl italic font-medium" },
+  { name: "MARIE CLAIRE", className: "text-sm tracking-[0.4em] font-light" },
+  { name: "ARCHITECTURAL", className: "text-xs tracking-[0.5em] font-bold" },
+  { name: "Domino", className: "font-serif text-3xl italic" },
+];
 
 export default function Home() {
+  const popular = products.slice(0, 5);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      {/* 1. HERO — Halena split, turquoise bg, serif left, image right */}
+      <section className="bg-[var(--brand-soft)]">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-[80vh] gap-8 py-12">
+            <div className="order-2 lg:order-1 max-w-md animate-fade-up">
+              <h1 className="font-serif text-6xl sm:text-7xl text-black leading-[1.05]">
+                Prémiové dekorace
+              </h1>
+              <p className="font-serif text-xl mt-5 text-black/70">
+                Detaily tvoří atmosféru
+              </p>
+              <div className="mt-10">
+                <Link
+                  href="/produkty"
+                  className="inline-block text-[13px] tracking-[0.25em] uppercase text-black border-b border-black pb-2 hover:opacity-60 transition-opacity"
+                >
+                  Nakupovat
+                </Link>
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 relative aspect-[4/5] lg:aspect-auto lg:h-[80vh] w-full">
+              <Image
+                src={HERO}
+                alt="Dekorace"
+                fill
+                priority
+                sizes="(max-width:1024px) 100vw, 50vw"
+                className="object-contain object-center"
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* 2. ASYMMETRIC CATEGORY GRID — Halena: big left + 2 stacked right */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 min-h-[90vh]">
+        {/* big left */}
+        <Link
+          href={CAT_LARGE.href}
+          className="group relative bg-[#e7e5e1] aspect-square lg:aspect-auto overflow-hidden"
+        >
+          <Image
+            src={CAT_LARGE.img}
+            alt={CAT_LARGE.title}
+            fill
+            sizes="(max-width:1024px) 100vw, 50vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+          />
+          <div className="absolute inset-x-0 bottom-12 text-center">
+            <h3 className="font-serif text-3xl text-black">{CAT_LARGE.title}</h3>
+          </div>
+        </Link>
+
+        {/* right column: 2 stacked */}
+        <div className="grid grid-rows-2">
+          <Link
+            href={CAT_TOP.href}
+            className="group relative overflow-hidden aspect-square lg:aspect-auto"
+            style={{ backgroundColor: CAT_TOP.bg }}
           >
             <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src={CAT_TOP.img}
+              alt={CAT_TOP.title}
+              fill
+              sizes="(max-width:1024px) 100vw, 50vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            <div className="absolute inset-y-0 right-12 flex items-center">
+              <h3 className="font-serif text-3xl text-black">{CAT_TOP.title}</h3>
+            </div>
+          </Link>
+          <Link
+            href={CAT_BOT.href}
+            className="group relative overflow-hidden aspect-square lg:aspect-auto bg-white"
           >
-            Documentation
-          </a>
+            <Image
+              src={CAT_BOT.img}
+              alt={CAT_BOT.title}
+              fill
+              sizes="(max-width:1024px) 100vw, 50vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-y-0 right-12 flex items-center">
+              <h3 className="font-serif text-3xl text-black">{CAT_BOT.title}</h3>
+            </div>
+          </Link>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* 3. POPULAR ITEMS — minimalist Halena grid */}
+      <section className="mx-auto max-w-[1400px] px-6 lg:px-10 py-24">
+        <h2 className="font-serif text-3xl text-center text-black mb-14">
+          Oblíbené produkty
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-14">
+          {popular.map(p => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      </section>
+
+      {/* 4. OUR BRANDS strip */}
+      <section className="border-t border-neutral-100">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-20">
+          <h3 className="font-serif text-2xl text-center text-black mb-12">
+            Naše značky
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-10 items-center justify-items-center text-black">
+            {BRANDS.map(b => (
+              <span key={b.name} className={`${b.className} hover:opacity-60 transition-opacity cursor-pointer`}>
+                {b.name}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. NEW ARRIVALS — second product grid */}
+      <section className="mx-auto max-w-[1400px] px-6 lg:px-10 pb-24">
+        <h2 className="font-serif text-3xl text-center text-black mb-14">
+          Novinky
+        </h2>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-14">
+          {products.slice(5, 10).map(p => (
+            <ProductCard key={p.id} product={p} />
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

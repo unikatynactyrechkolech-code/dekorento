@@ -1,0 +1,440 @@
+[
+  {
+    "id": "4085",
+    "slug": "pozadi-vesmir",
+    "name": "Pozadí vesmír",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-4.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-4.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/space-background-realistic-starry-night-cosmos-shining-stars-milky-way-stardust-color-galaxy-scaled.jpg"
+    ]
+  },
+  {
+    "id": "4042",
+    "slug": "pink-champagne-glitter-pozadi",
+    "name": "Pink champagne glitter pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-24.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-24.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-24-1.jpg"
+    ]
+  },
+  {
+    "id": "4073",
+    "slug": "cervene-semisove-pozadi",
+    "name": "Červené semišové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-27-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-27-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-60.jpg"
+    ]
+  },
+  {
+    "id": "4081",
+    "slug": "fialove-svatebni-pozadi",
+    "name": "Fialové svatební pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-38.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-38.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-38-1.jpg"
+    ]
+  },
+  {
+    "id": "4155",
+    "slug": "kremove-latkove-pozadi",
+    "name": "Krémové látkové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-48-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-48-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-69.jpg"
+    ]
+  },
+  {
+    "id": "4161",
+    "slug": "bile-pozadi-se-zavesem-a-brectanem",
+    "name": "Bílé pozadí se závěsem a břečťanem",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-50.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-50.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-72.jpg"
+    ]
+  },
+  {
+    "id": "4071",
+    "slug": "hawai-pozadi-tistene",
+    "name": "Hawai pozadí tištěné",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-6.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-6.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/AdobeStock_272492011-scaled.jpeg"
+    ]
+  },
+  {
+    "id": "4139",
+    "slug": "ruzove-glitter-pozadi",
+    "name": "Růžové glitter pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-37.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-37.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-68.jpg"
+    ]
+  },
+  {
+    "id": "4039",
+    "slug": "modre-satenove-pozadi",
+    "name": "Modré saténové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-19.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-19.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-19-1.jpg"
+    ]
+  },
+  {
+    "id": "4079",
+    "slug": "bile-glitter-pozadi",
+    "name": "Bílé glitter pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-31.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-31.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-32.jpg"
+    ]
+  },
+  {
+    "id": "4190",
+    "slug": "ruzove-glitter-pozadi-s-odlesky",
+    "name": "Růžové glitter pozadí s odlesky",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-37-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-37-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-68.jpg"
+    ]
+  },
+  {
+    "id": "4041",
+    "slug": "black-gold-stuhy",
+    "name": "Black & Gold stuhy",
+    "price": 2000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-21.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-21.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-22.jpg"
+    ]
+  },
+  {
+    "id": "4162",
+    "slug": "latkove-pozadi-plisky",
+    "name": "Látkové pozadí plíšky",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-44.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-44.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-80.jpg"
+    ]
+  },
+  {
+    "id": "4168",
+    "slug": "bile-latkove-pozadi-ozdobne-kvetiny",
+    "name": "Bílé látkové pozadí - ozdobné květiny",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-49-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-49-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-75.jpg"
+    ]
+  },
+  {
+    "id": "4016",
+    "slug": "cervene-flitrove-pozadi",
+    "name": "Červené flitrové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-6.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-6.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-49.jpg"
+    ]
+  },
+  {
+    "id": "4080",
+    "slug": "rose-gold-glitter-pozadi",
+    "name": "Rose Gold glitter pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-30.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-30.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-30-2.jpg"
+    ]
+  },
+  {
+    "id": "4038",
+    "slug": "modre-hvezdickove-pozadi",
+    "name": "Modré hvězdičkové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-18.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-18.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-17.jpg"
+    ]
+  },
+  {
+    "id": "3994",
+    "slug": "modre-glitter-pozadi",
+    "name": "Modré glitter pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/02/Partypack-35.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/02/Partypack-35.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-36.jpg"
+    ]
+  },
+  {
+    "id": "4057",
+    "slug": "stribrne-trasne",
+    "name": "Stříbrné třásně",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-43.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-43.jpg"
+    ]
+  },
+  {
+    "id": "4082",
+    "slug": "bilo-zlate-latkove-pozadi",
+    "name": "Bílo zlaté látkové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-3.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-3.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/elegant_hand_painted_alcohol_ink_design_with_gold_glitter_0103-scaled.jpg"
+    ]
+  },
+  {
+    "id": "4035",
+    "slug": "ruzove-flitrove-pozadi-2",
+    "name": "Růžové flitrové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-9.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-9.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-51.jpg"
+    ]
+  },
+  {
+    "id": "4153",
+    "slug": "ruzove-glitter-se-srdicky",
+    "name": "Růžové glitter se srdíčky",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-38-2.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-38-2.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-66.jpg"
+    ]
+  },
+  {
+    "id": "4036",
+    "slug": "champagne-flitrove-pozadi",
+    "name": "Champagne flitrové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-15.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-15.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-16.jpg"
+    ]
+  },
+  {
+    "id": "4060",
+    "slug": "fialovo-ruzove-pozadi",
+    "name": "Fialovo / Růžové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-56.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-56.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-57.jpg"
+    ]
+  },
+  {
+    "id": "4167",
+    "slug": "bile-latkove-pozadi-ruzove-kvety",
+    "name": "Bílé látkové pozadí - růžové květy",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-51-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-51-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-71.jpg"
+    ]
+  },
+  {
+    "id": "4169",
+    "slug": "bile-platno-se-srdicky",
+    "name": "Bílé plátno se srdíčky",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-8.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-8.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-89.jpg"
+    ]
+  },
+  {
+    "id": "3996",
+    "slug": "stribrne-flitrove-pozadi",
+    "name": "Stříbrné flitrové pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/02/Partypack-52.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/02/Partypack-52.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-53.jpg"
+    ]
+  },
+  {
+    "id": "4089",
+    "slug": "ruzove-leskle-trasnove-pozadi",
+    "name": "Růžové lesklé třásňové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-47.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-47.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-48.jpg"
+    ]
+  },
+  {
+    "id": "4061",
+    "slug": "merunkove-latkove-pozadi",
+    "name": "Meruňkové látkové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-27.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-27.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-28.jpg"
+    ]
+  },
+  {
+    "id": "4059",
+    "slug": "fialove-trasnove-pozadi",
+    "name": "Fialové třásňové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-58.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-58.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-59.jpg"
+    ]
+  },
+  {
+    "id": "4086",
+    "slug": "stribrne-plisky-bile-trasne",
+    "name": "Stříbrné plíšky + bílé třásně",
+    "price": 2000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-41.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-41.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-45.jpg"
+    ]
+  },
+  {
+    "id": "4040",
+    "slug": "cerne-glitter-pozadi",
+    "name": "Černé glitter pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-20.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-20.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-20-1.jpg"
+    ]
+  },
+  {
+    "id": "4063",
+    "slug": "blue-white-stuhy",
+    "name": "Blue & White stuhy",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-33.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-33.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-33-1.jpg"
+    ]
+  },
+  {
+    "id": "4152",
+    "slug": "ruzove-glitter-pozadi-s-kvety",
+    "name": "Růžové glitter pozadí s květy",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-41-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-41-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-64.jpg"
+    ]
+  },
+  {
+    "id": "4166",
+    "slug": "latkove-pozadi-bile-ruze",
+    "name": "Látkové pozadí bílé růže",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-45-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-45-1.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-82.jpg"
+    ]
+  },
+  {
+    "id": "4075",
+    "slug": "duhove-trasnove-pozadi",
+    "name": "Duhové třásňové pozadí",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-30-1.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-30-1.jpg"
+    ]
+  },
+  {
+    "id": "4065",
+    "slug": "pozadi-zamecke-schody",
+    "name": "Pozadí zámecké schody",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-7.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/MiaGebauer-7.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/AdobeStock_636013182-scaled.jpeg"
+    ]
+  },
+  {
+    "id": "4164",
+    "slug": "latkove-pozadi-ruze",
+    "name": "Látkové pozadí růže",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-46.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-46.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-83.jpg"
+    ]
+  },
+  {
+    "id": "3995",
+    "slug": "gold-glitter-pozadi",
+    "name": "Gold glitter pozadí",
+    "price": 1500,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/02/Partypack-54.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/02/Partypack-54.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-55.jpg"
+    ]
+  },
+  {
+    "id": "4058",
+    "slug": "modre-trasne",
+    "name": "Modré třásně",
+    "price": 1000,
+    "image": "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-40.jpg",
+    "images": [
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-40.jpg",
+      "https://dekorento.cz/wp-content/uploads/2026/03/Partypack-40-1.jpg"
+    ]
+  }
+]

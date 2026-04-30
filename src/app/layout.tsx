@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Cormorant_Garamond } from "next/font/google";
+import { Montserrat, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -7,14 +7,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const sans = Montserrat({
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin", "latin-ext"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
 });
 
 const serif = Cormorant_Garamond({
@@ -37,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="cs"
-      className={`${geistSans.variable} ${geistMono.variable} ${serif.variable} h-full antialiased`}
+      className={`${sans.variable} ${serif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-neutral-900">
         <AuthProvider>

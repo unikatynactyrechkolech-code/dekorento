@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { Search, ShoppingBag, User, Menu, X, Globe } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -27,9 +28,14 @@ export default function Header() {
           <div className="flex items-center h-20 gap-10">
             {/* Logo */}
             <Link href="/" className="flex items-center group shrink-0">
-              <span className="font-serif text-3xl italic font-medium tracking-tight text-black border-b-2 border-black pb-0.5 leading-none">
-                dekorento
-              </span>
+              <Image
+                src="/logo.png"
+                alt="Dekorento"
+                width={1162}
+                height={806}
+                priority
+                className="h-12 w-auto sm:h-14 object-contain"
+              />
             </Link>
 
             {/* Nav */}
@@ -106,7 +112,7 @@ export default function Header() {
           />
           <div className="absolute right-0 top-0 bottom-0 w-72 bg-white p-6 shadow-2xl">
             <div className="flex justify-between items-center mb-10">
-              <span className="font-serif text-2xl italic">dekorento</span>
+              <Image src="/logo.png" alt="Dekorento" width={1162} height={806} className="h-10 w-auto object-contain" />
               <button onClick={() => setMobileOpen(false)} className="p-2 -mr-2">
                 <X className="w-5 h-5" />
               </button>

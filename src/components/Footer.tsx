@@ -100,7 +100,7 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-sm uppercase tracking-[0.2em] mb-5">Kontakt</h4>
             <ul className="space-y-3 text-sm text-neutral-600">
-              <li className="flex items-center gap-2"><Mail className="w-4 h-4" /> info@dekorento.cz</li>
+              <li className="flex items-center gap-2"><Mail className="w-4 h-4" /> unikatynactyrechkolech@gmail.com</li>
               <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +420 777 123 456</li>
               <li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Praha & okolí</li>
             </ul>

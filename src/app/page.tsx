@@ -3,35 +3,35 @@ import Image from "next/image";
 import { products } from "@/lib/products";
 import ProductCard from "@/components/ProductCard";
 
-// Hero category showcase — 4 sloupce s průhledným tlačítkem
+// Hero category showcase — 4 sloupce, střídavé černobílé tlačítka
 const HERO_CATS = [
   {
     label: "FOTOPOZADÍ",
     href: "/produkty?cat=L%C3%A1tkov%C3%A1%20pozad%C3%AD",
     img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=85",
     bg: "#efe9dd",
-    light: true,
+    style: "dark" as const, // černé tlačítko
   },
   {
     label: "LED SVĚTLA + PÍSMENA",
     href: "/produkty?cat=Tematick%C3%A1%20pozad%C3%AD",
     img: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=85",
     bg: "#0a0a0a",
-    light: false,
+    style: "light" as const, // bílé tlačítko
   },
   {
     label: "REKVIZITY",
     href: "/produkty?cat=Glitter%20%26%20Flitry",
     img: "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=900&q=85",
     bg: "#f3f1ed",
-    light: true,
+    style: "dark" as const,
   },
   {
     label: "INSTAX",
     href: "/produkty",
     img: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=900&q=85",
     bg: "#dcdad4",
-    light: true,
+    style: "light" as const, // bílé tlačítko
   },
 ];
 
@@ -83,13 +83,13 @@ export default function Home() {
               className="object-cover transition-transform duration-700 group-hover:scale-110"
               priority
             />
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors" />
+            <div className="absolute inset-0 bg-black/15 group-hover:bg-black/30 transition-colors" />
             <span
-              className={`relative z-10 px-7 py-3.5 border text-[12px] font-semibold tracking-[0.25em] uppercase transition-all duration-300
+              className={`relative z-10 px-7 py-3.5 text-[12px] font-semibold tracking-[0.25em] uppercase shadow-md transition-all duration-300
                 ${
-                  c.light
-                    ? "border-black text-black bg-white/0 group-hover:bg-white"
-                    : "border-white text-white group-hover:bg-white group-hover:text-black"
+                  c.style === "dark"
+                    ? "bg-black text-white border border-black group-hover:bg-white group-hover:text-black"
+                    : "bg-white text-black border border-white group-hover:bg-black group-hover:text-white group-hover:border-black"
                 }`}
             >
               {c.label}

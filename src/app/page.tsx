@@ -7,7 +7,39 @@ import ProductCard from "@/components/ProductCard";
 const HERO_IMG =
   "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=1600&q=85";
 
-// 3-tile asymmetric grid: large left + 2 stacked right (alternating gray/white bg)
+// 4-col hero category showcase
+const HERO_CATS = [
+  {
+    label: "FOTOPOZADÍ",
+    href: "/produkty?cat=L%C3%A1tkov%C3%A1%20pozad%C3%AD",
+    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=900&q=85",
+    bg: "#efe9dd",
+    dark: false,
+  },
+  {
+    label: "LED SVĚTLA + PÍSMENA",
+    href: "/produkty?cat=Tematick%C3%A1%20pozad%C3%AD",
+    img: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=900&q=85",
+    bg: "#0a0a0a",
+    dark: true,
+  },
+  {
+    label: "REKVIZITY",
+    href: "/produkty?cat=Glitter%20%26%20Flitry",
+    img: "https://images.unsplash.com/photo-1530023367847-a683933f4172?auto=format&fit=crop&w=900&q=85",
+    bg: "#f3f1ed",
+    dark: false,
+  },
+  {
+    label: "INSTAX",
+    href: "/produkty",
+    img: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=900&q=85",
+    bg: "#dcdad4",
+    dark: true,
+  },
+];
+
+// 3-tile asymmetric triptych
 const TILES = {
   big: {
     title: "Fotopozadí",
@@ -42,37 +74,56 @@ export default function Home() {
 
   return (
     <>
-      {/* 1. HERO — Halena style: mint bg, serif left, big image right */}
+      {/* 1a. 4-COL HERO CATEGORY SHOWCASE */}
+      <section className="grid grid-cols-2 lg:grid-cols-4 h-[70vh] min-h-[420px]">
+        {HERO_CATS.map(c => (
+          <Link
+            key={c.label}
+            href={c.href}
+            className="group relative overflow-hidden"
+            style={{ backgroundColor: c.bg }}
+          >
+            <Image
+              src={c.img}
+              alt={c.label}
+              fill
+              sizes="(max-width:1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/35 transition-colors duration-300" />
+            {/* Outlined rectangle label — centered, exactly like reference */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span
+                className={`px-6 py-3 text-[11px] font-medium tracking-[0.3em] uppercase transition-all duration-300
+                  ${
+                    c.dark
+                      ? "border border-white text-white group-hover:bg-white group-hover:text-black"
+                      : "border border-white text-white group-hover:bg-black group-hover:border-black group-hover:text-white"
+                  }`}
+              >
+                {c.label}
+              </span>
+            </div>
+          </Link>
+        ))}
+      </section>
+
+      {/* 1b. HERO TEXT BAND — mint bg, serif title */}
       <section className="bg-[var(--brand-soft)]">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center min-h-[88vh] gap-8 py-12">
-            <div className="order-2 lg:order-1 max-w-md animate-fade-up">
-              <h1 className="font-serif text-6xl sm:text-7xl text-black leading-[1.05]">
-                Prémiové dekorace
-              </h1>
-              <p className="font-serif text-xl mt-5 text-black/70">
-                Detaily tvoří atmosféru
-              </p>
-              <div className="mt-10">
-                <Link
-                  href="/produkty"
-                  className="inline-block text-[12px] tracking-[0.3em] uppercase text-black border-b border-black pb-2 hover:opacity-60 transition-opacity"
-                >
-                  Nakupovat
-                </Link>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2 relative aspect-[4/5] lg:aspect-auto lg:h-[80vh] w-full">
-              <Image
-                src={HERO_IMG}
-                alt="Dekorace"
-                fill
-                priority
-                sizes="(max-width:1024px) 100vw, 50vw"
-                className="object-cover object-center"
-              />
-            </div>
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-16 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+          <div>
+            <h1 className="font-serif text-5xl sm:text-6xl text-black leading-[1.05]">
+              Prémiové dekorace
+            </h1>
+            <p className="font-serif text-lg mt-3 text-black/70">Detaily tvoří atmosféru</p>
           </div>
+          <Link
+            href="/produkty"
+            className="shrink-0 text-[12px] tracking-[0.3em] uppercase text-black border-b border-black pb-1.5 hover:opacity-60 transition-opacity"
+          >
+            Nakupovat
+          </Link>
         </div>
       </section>
 
@@ -90,8 +141,11 @@ export default function Home() {
             sizes="(max-width:1024px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          <div className="absolute inset-x-0 bottom-12 text-center">
-            <h3 className="font-serif text-3xl text-white drop-shadow-lg">{TILES.big.title}</h3>
+          <div className="absolute inset-0 bg-black/15 group-hover:bg-black/30 transition-colors duration-300" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="border border-white text-white text-[11px] font-medium tracking-[0.3em] uppercase px-6 py-3 group-hover:bg-white group-hover:text-black transition-all duration-300">
+              {TILES.big.title}
+            </span>
           </div>
         </Link>
         <div className="grid grid-rows-2">
@@ -109,8 +163,11 @@ export default function Home() {
                 sizes="(max-width:1024px) 100vw, 50vw"
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-y-0 right-12 flex items-center">
-                <h3 className="font-serif text-3xl text-white drop-shadow-lg">{t.title}</h3>
+              <div className="absolute inset-0 bg-black/15 group-hover:bg-black/30 transition-colors duration-300" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="border border-white text-white text-[11px] font-medium tracking-[0.3em] uppercase px-6 py-3 group-hover:bg-white group-hover:text-black transition-all duration-300">
+                  {t.title}
+                </span>
               </div>
             </Link>
           ))}

@@ -97,7 +97,7 @@ export default function Footer() {
           <div>
             <h4 className="font-serif text-2xl text-black mb-5">Zákaznický servis</h4>
             <p className="text-sm text-black/70 leading-relaxed">
-              unikatynactyrechkolech@gmail.com<br />
+              info@dekorento.cz<br />
               +420 777 123 456<br />
               Praha & okolí
             </p>

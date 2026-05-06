@@ -3,10 +3,36 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Search, ShoppingBag, User, Menu, X, Globe } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
 import SearchOverlay from "./SearchOverlay";
+
+// Halena-style language icon (文A)
+const LangIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M5 8h8M9 5v3M7 13c.6 1.4 1.8 2.5 3 3M6 16c1-1 2-2 3-3" />
+    <path d="M13 6h6m-3-3v3" />
+    <path d="M14 21l4-9 4 9M15.5 17.5h5" />
+  </svg>
+);
+
+// User circle icon (Halena style)
+const UserIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+  </svg>
+);
+
+// 3 stacked dots (•••) as mobile menu trigger
+const DotsMenu = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+    <circle cx="10" cy="4" r="1.5" />
+    <circle cx="10" cy="10" r="1.5" />
+    <circle cx="10" cy="16" r="1.5" />
+  </svg>
+);
 
 const NAV = [
   { href: "/", label: "Home" },
@@ -23,7 +49,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 bg-[var(--brand-soft)] backdrop-blur-xl">
         <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
           <div className="flex items-center h-20 gap-10">
             {/* Logo */}
@@ -51,52 +77,41 @@ export default function Header() {
               ))}
             </nav>
 
-            {/* Right icons */}
+            {/* Right icons — Halena style */}
             <div className="flex items-center gap-5 ml-auto text-black">
-              <Link
-                href="/kosik"
-                className="hidden sm:inline text-[15px] hover:opacity-60"
+              <button
+                onClick={() => setOpen(true)}
+                className="text-[15px] hover:opacity-60 transition-opacity"
+                aria-label="Košík"
               >
                 Košík ({count})
-              </Link>
+              </button>
               <button
                 onClick={() => setSearchOpen(true)}
-                className="hover:opacity-60"
+                className="hover:opacity-60 transition-opacity"
                 aria-label="Hledat"
               >
-                <Search className="w-[18px] h-[18px]" strokeWidth={1.6} />
+                <Search className="w-[18px] h-[18px]" strokeWidth={1.5} />
               </button>
-              <button className="hidden sm:inline hover:opacity-60" aria-label="Jazyk">
-                <Globe className="w-[18px] h-[18px]" strokeWidth={1.6} />
+              <button className="hidden sm:inline hover:opacity-60 transition-opacity" aria-label="Jazyk">
+                <LangIcon />
               </button>
               <Link
                 href={user ? "/profil" : "/prihlaseni"}
-                className="hover:opacity-60 relative"
+                className="hover:opacity-60 transition-opacity relative"
                 aria-label="Účet"
               >
-                <User className="w-[18px] h-[18px]" strokeWidth={1.6} />
+                <UserIcon />
                 {user && (
                   <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-black rounded-full" />
                 )}
               </Link>
               <button
-                onClick={() => setOpen(true)}
-                className="sm:hidden hover:opacity-60 relative"
-                aria-label="Košík"
-              >
-                <ShoppingBag className="w-[18px] h-[18px]" strokeWidth={1.6} />
-                {count > 0 && (
-                  <span className="absolute -top-1.5 -right-1.5 bg-black text-white text-[9px] font-bold rounded-full min-w-[16px] h-[16px] flex items-center justify-center px-1">
-                    {count}
-                  </span>
-                )}
-              </button>
-              <button
-                className="lg:hidden hover:opacity-60"
+                className="lg:hidden hover:opacity-60 transition-opacity"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Menu"
               >
-                <Menu className="w-5 h-5" strokeWidth={1.6} />
+                <DotsMenu />
               </button>
             </div>
           </div>

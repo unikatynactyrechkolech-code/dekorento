@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
-import { Mail, MapPin, Phone, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Instagram = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -11,13 +12,11 @@ const Instagram = (props: React.SVGProps<SVGSVGElement>) => (
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
   </svg>
 );
-
 const Facebook = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
   </svg>
 );
-
 const Pinterest = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
     <circle cx="12" cy="12" r="10" />
@@ -31,21 +30,22 @@ export default function Footer() {
 
   return (
     <footer className="mt-24">
-      {/* Newsletter */}
-      <section className="bg-[var(--brand-soft)]">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <h3 className="text-3xl sm:text-4xl font-black tracking-tight">
+      {/* Newsletter — Halena 3-col layout */}
+      <section className="border-t border-neutral-200">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-16 grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+          <h3 className="font-serif text-3xl sm:text-4xl text-black text-center md:text-left">
             Přihlaste se k odběru
           </h3>
-          <p className="mt-3 text-neutral-600">
-            Posíláme novinky a speciální nabídky. Žádný spam.
+          <p className="font-serif text-base text-black/70 text-center leading-relaxed">
+            Posíláme novinky a speciální nabídky.<br />
+            Bez spamu — slibujeme.
           </p>
           <form
             onSubmit={e => {
               e.preventDefault();
               if (email) setDone(true);
             }}
-            className="mt-8 flex flex-col sm:flex-row items-stretch gap-3 max-w-xl mx-auto"
+            className="relative"
           >
             <input
               type="email"
@@ -53,68 +53,54 @@ export default function Footer() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="Váš e-mail"
-              className="flex-1 px-5 py-4 rounded-full bg-white border border-transparent focus:border-[var(--brand-dark)] focus:outline-none text-sm"
+              className="w-full bg-transparent border-b border-black/40 focus:border-black outline-none py-4 pr-12 font-serif text-base placeholder:text-black/40"
             />
             <button
               type="submit"
-              className="bg-black hover:bg-neutral-800 text-white font-semibold px-7 py-4 rounded-full inline-flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+              className="absolute right-0 top-1/2 -translate-y-1/2 text-black hover:opacity-60"
+              aria-label="Odeslat"
             >
-              {done ? "Přihlášeno ✓" : "Odebírat"} <ArrowRight className="w-4 h-4" />
+              {done ? "✓" : <ArrowRight className="w-5 h-5" strokeWidth={1.5} />}
             </button>
           </form>
         </div>
       </section>
 
+      {/* Bottom row: logo+copy | links | customer service */}
       <div className="bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
-          <div className="col-span-2">
-            <div className="text-2xl font-black tracking-[0.2em]">DEKORENTO</div>
-            <p className="mt-4 text-sm text-neutral-500 max-w-xs leading-relaxed">
-              Půjčovna prémiových fotopozadí, rekvizit a dekorací.
-              Detaily tvoří atmosféru.
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-10 py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div>
+            <Image src="/logo.png" alt="Dekorento" width={1162} height={806} className="h-12 w-auto object-contain mb-5" />
+            <p className="text-xs text-black/60 tracking-wide">
+              © {new Date().getFullYear()} Dekorento. Všechna práva vyhrazena.
             </p>
-            <div className="flex gap-2 mt-6">
-              <a href="#" className="w-9 h-9 rounded-full border border-neutral-200 hover:bg-black hover:text-white hover:border-black flex items-center justify-center transition-colors">
+            <div className="flex gap-3 mt-5">
+              <a href="#" className="w-9 h-9 rounded-full border border-black/15 hover:bg-black hover:text-white hover:border-black flex items-center justify-center transition-colors">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full border border-neutral-200 hover:bg-black hover:text-white hover:border-black flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full border border-black/15 hover:bg-black hover:text-white hover:border-black flex items-center justify-center transition-colors">
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href="#" className="w-9 h-9 rounded-full border border-neutral-200 hover:bg-black hover:text-white hover:border-black flex items-center justify-center transition-colors">
+              <a href="#" className="w-9 h-9 rounded-full border border-black/15 hover:bg-black hover:text-white hover:border-black flex items-center justify-center transition-colors">
                 <Pinterest className="w-4 h-4" />
               </a>
             </div>
           </div>
 
-          <div>
-            <h4 className="font-bold text-sm uppercase tracking-[0.2em] mb-5">Obchod</h4>
-            <ul className="space-y-3 text-sm text-neutral-600">
-              <li><Link href="/produkty" className="hover:text-black">Vše</Link></li>
-              <li><Link href="/produkty?cat=Glitter%20%26%20Flitry" className="hover:text-black">Glitter & Flitry</Link></li>
-              <li><Link href="/produkty?cat=L%C3%A1tkov%C3%A1%20pozad%C3%AD" className="hover:text-black">Látková pozadí</Link></li>
-              <li><Link href="/produkty?cat=Tematick%C3%A1%20pozad%C3%AD" className="hover:text-black">Tematická</Link></li>
-              <li><Link href="/inspirace" className="hover:text-black">Inspirace</Link></li>
-            </ul>
-          </div>
+          <ul className="space-y-3 font-serif text-base text-black/80">
+            <li><Link href="#" className="hover:opacity-60">Obchodní podmínky</Link></li>
+            <li><Link href="#" className="hover:opacity-60">FAQ</Link></li>
+            <li><Link href="#" className="hover:opacity-60">Doprava & vrácení</Link></li>
+            <li><Link href="#" className="hover:opacity-60">Sledovat objednávku</Link></li>
+          </ul>
 
           <div>
-            <h4 className="font-bold text-sm uppercase tracking-[0.2em] mb-5">Kontakt</h4>
-            <ul className="space-y-3 text-sm text-neutral-600">
-              <li className="flex items-center gap-2"><Mail className="w-4 h-4" /> unikatynactyrechkolech@gmail.com</li>
-              <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> +420 777 123 456</li>
-              <li className="flex items-center gap-2"><MapPin className="w-4 h-4" /> Praha & okolí</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="border-t border-neutral-100">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between gap-4 text-xs text-neutral-500">
-            <p>© {new Date().getFullYear()} Dekorento. Všechna práva vyhrazena.</p>
-            <div className="flex gap-6">
-              <Link href="#" className="hover:text-black">Obchodní podmínky</Link>
-              <Link href="#" className="hover:text-black">FAQ</Link>
-              <Link href="#" className="hover:text-black">Doprava</Link>
-            </div>
+            <h4 className="font-serif text-2xl text-black mb-5">Zákaznický servis</h4>
+            <p className="text-sm text-black/70 leading-relaxed">
+              unikatynactyrechkolech@gmail.com<br />
+              +420 777 123 456<br />
+              Praha & okolí
+            </p>
           </div>
         </div>
       </div>

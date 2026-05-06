@@ -3,9 +3,10 @@
 :root {
   --background: #ffffff;
   --foreground: #111111;
-  --brand: #6ED7D2;        /* light turquoise */
+  --brand: #b9e5e0;          /* main turquoise */
   --brand-dark: #3FB8B3;
-  --brand-soft: #E6F8F7;
+  --brand-soft: #eaf6f3;     /* very light mint (hero bg) */
+  --gray-soft: #efeeec;      /* warm gray (alt card bg) */
 }
 
 @theme inline {

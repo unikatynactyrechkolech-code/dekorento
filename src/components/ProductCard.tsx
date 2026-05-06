@@ -44,12 +44,14 @@ export default function ProductCard({
           )}
         </Link>
 
-        {/* Quick view pill */}
+        {/* Outlined rectangle button — centered on image */}
         <Link
           href={`/produkt/${product.slug}`}
-          className="absolute left-1/2 -translate-x-1/2 bottom-5 bg-black text-white text-[11px] tracking-wide px-4 py-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300"
+          className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         >
-          Quick View
+          <span className="border border-white text-white text-[11px] font-medium tracking-[0.25em] uppercase px-6 py-3 bg-black/10 backdrop-blur-[2px]">
+            ZOBRAZIT
+          </span>
         </Link>
       </div>
 

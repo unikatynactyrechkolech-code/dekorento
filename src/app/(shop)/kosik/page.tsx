@@ -5,11 +5,64 @@ import Image from "next/image";
 import { useState } from "react";
 import { Trash2, Plus, Minus, ArrowRight, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { formatPrice } from "@/lib/format";
 
 export default function CartPage() {
   const { items, total, setQty, remove, clear } = useCart();
+  const { user } = useAuth();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [orderNumber, setOrderNumber] = useState<string | null>(null);
+  const [form, setForm] = useState({
+    full_name: "",
+    email: "",
+    phone: "",
+    street: "",
+    city: "",
+    postal_code: "",
+    note: "",
+  });
+  const [error, setError] = useState("");
+
+  // Předvyplnění z přihlášeného uživatele
+  if (user && !form.email) {
+    setForm((f) => ({ ...f, email: user.email, full_name: user.name }));
+  }
+
+  async function submit() {
+    setError("");
+    if (!form.email || !form.full_name) {
+      setError("Vyplňte jméno a e-mail.");
+      return;
+    }
+    setSubmitting(true);
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        ...form,
+        items: items.map((i) => ({
+          product_id: i.id,
+          product_slug: i.slug,
+          product_name: i.name,
+          product_image: i.image,
+          unit_price: i.price,
+          quantity: i.qty,
+        })),
+      }),
+    });
+    setSubmitting(false);
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      setError(j.error || "Nepodařilo se vytvořit objednávku");
+      return;
+    }
+    const j = await res.json();
+    setOrderNumber(j.order_number);
+    setSubmitted(true);
+    clear();
+  }
 
   if (submitted) {
     return (
@@ -20,9 +73,11 @@ export default function CartPage() {
           </svg>
         </div>
         <h1 className="text-3xl font-black">Děkujeme za objednávku!</h1>
+        {orderNumber && (
+          <p className="mt-2 font-mono text-lg">{orderNumber}</p>
+        )}
         <p className="mt-3 text-neutral-600">
-          Tohle je demo verze — objednávka byla simulována. V brzké době bude k
-          dispozici platba a rezervační kalendář.
+          Brzy vás budeme kontaktovat ohledně potvrzení a platby.
         </p>
         <Link
           href="/"
@@ -130,17 +185,66 @@ export default function CartPage() {
             <span>Celkem k úhradě</span>
             <span>{formatPrice(total + Math.round(total * 0.3))}</span>
           </div>
+
+          <div className="space-y-2 pt-2">
+            <input
+              placeholder="Jméno a příjmení"
+              className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm"
+              value={form.full_name}
+              onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+            />
+            <input
+              placeholder="E-mail"
+              type="email"
+              className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+            />
+            <input
+              placeholder="Telefon"
+              className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+            <input
+              placeholder="Ulice a č.p."
+              className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm"
+              value={form.street}
+              onChange={(e) => setForm({ ...form, street: e.target.value })}
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <input
+                placeholder="Město"
+                className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm"
+                value={form.city}
+                onChange={(e) => setForm({ ...form, city: e.target.value })}
+              />
+              <input
+                placeholder="PSČ"
+                className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm"
+                value={form.postal_code}
+                onChange={(e) => setForm({ ...form, postal_code: e.target.value })}
+              />
+            </div>
+            <textarea
+              placeholder="Poznámka (datum akce, …)"
+              className="w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 text-sm min-h-16"
+              value={form.note}
+              onChange={(e) => setForm({ ...form, note: e.target.value })}
+            />
+          </div>
+
+          {error && <p className="text-sm text-red-600">{error}</p>}
+
           <button
-            onClick={() => {
-              setSubmitted(true);
-              clear();
-            }}
-            className="w-full bg-black hover:bg-neutral-800 text-white font-semibold py-4 rounded-full inline-flex items-center justify-center gap-2"
+            onClick={submit}
+            disabled={submitting}
+            className="w-full bg-black hover:bg-neutral-800 text-white font-semibold py-4 rounded-full inline-flex items-center justify-center gap-2 disabled:opacity-50"
           >
-            Dokončit objednávku <ArrowRight className="w-4 h-4" />
+            {submitting ? "Odesílám…" : "Dokončit objednávku"} <ArrowRight className="w-4 h-4" />
           </button>
           <p className="text-xs text-neutral-500 text-center">
-            Demo režim — nevyžaduje platbu
+            Platba bude doplněna brzy (Stripe / GoPay)
           </p>
         </aside>
       </div>

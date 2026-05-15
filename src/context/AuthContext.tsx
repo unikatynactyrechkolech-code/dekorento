@@ -1,76 +1,94 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import type { User } from "@/lib/types";
+import type { User as AuthUser } from "@supabase/supabase-js";
+import { createClient } from "@/lib/supabase/client";
+
+export type AppUser = {
+  id: string;
+  email: string;
+  name: string;
+};
 
 type AuthCtx = {
-  user: User | null;
+  user: AppUser | null;
+  loading: boolean;
   login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
   register: (name: string, email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const Ctx = createContext<AuthCtx | null>(null);
-const KEY = "dekorento_user_v1";
-const USERS_KEY = "dekorento_users_v1";
 
-type StoredUser = User & { password: string };
+function toAppUser(u: AuthUser | null): AppUser | null {
+  if (!u) return null;
+  return {
+    id: u.id,
+    email: u.email ?? "",
+    name: (u.user_metadata?.full_name as string) || u.email?.split("@")[0] || "",
+  };
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [supabase] = useState(() => createClient());
+  const [user, setUser] = useState<AppUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setUser(JSON.parse(raw));
-    } catch {}
-  }, []);
-
-  function persist(u: User | null) {
-    setUser(u);
-    if (u) localStorage.setItem(KEY, JSON.stringify(u));
-    else localStorage.removeItem(KEY);
-  }
-
-  function getUsers(): StoredUser[] {
-    try {
-      return JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
-    } catch {
-      return [];
-    }
-  }
-  function saveUsers(list: StoredUser[]) {
-    localStorage.setItem(USERS_KEY, JSON.stringify(list));
-  }
+    let active = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!active) return;
+      setUser(toAppUser(data.user));
+      setLoading(false);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(toAppUser(session?.user ?? null));
+    });
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
+  }, [supabase]);
 
   return (
     <Ctx.Provider
       value={{
         user,
+        loading,
         async login(email, password) {
-          const users = getUsers();
-          const u = users.find(x => x.email.toLowerCase() === email.toLowerCase());
-          if (!u) return { ok: false, error: "Účet s tímto e-mailem neexistuje." };
-          if (u.password !== password) return { ok: false, error: "Nesprávné heslo." };
-          persist({ email: u.email, name: u.name });
+          const { error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) return { ok: false, error: translateError(error.message) };
           return { ok: true };
         },
         async register(name, email, password) {
-          if (!name || !email || password.length < 4) return { ok: false, error: "Vyplňte všechna pole. Heslo min. 4 znaky." };
-          const users = getUsers();
-          if (users.some(x => x.email.toLowerCase() === email.toLowerCase()))
-            return { ok: false, error: "E-mail je již zaregistrován." };
-          users.push({ name, email, password });
-          saveUsers(users);
-          persist({ name, email });
+          if (!name || !email || password.length < 6) {
+            return { ok: false, error: "Vyplňte všechna pole. Heslo min. 6 znaků." };
+          }
+          const { error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: { data: { full_name: name } },
+          });
+          if (error) return { ok: false, error: translateError(error.message) };
           return { ok: true };
         },
-        logout: () => persist(null),
+        async logout() {
+          await supabase.auth.signOut();
+          setUser(null);
+        },
       }}
     >
       {children}
     </Ctx.Provider>
   );
+}
+
+function translateError(msg: string): string {
+  if (/Invalid login credentials/i.test(msg)) return "Nesprávný e-mail nebo heslo.";
+  if (/already registered/i.test(msg)) return "E-mail je již zaregistrován.";
+  if (/Password should be at least/i.test(msg)) return "Heslo musí mít alespoň 6 znaků.";
+  if (/rate limit/i.test(msg)) return "Příliš mnoho pokusů, zkuste to za chvíli.";
+  return msg;
 }
 
 export function useAuth() {

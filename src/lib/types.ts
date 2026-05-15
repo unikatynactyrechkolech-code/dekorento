@@ -20,7 +20,9 @@ export type CartItem = {
   qty: number;
 };
 
+/** @deprecated Použij `AppUser` z `@/context/AuthContext` */
 export type User = {
+  id?: string;
   email: string;
   name: string;
 };

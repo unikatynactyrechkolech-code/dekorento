@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createSupabaseServer, createSupabaseAdmin } from "@/lib/supabase/server";
+import { sendOrderConfirmation } from "@/lib/email";
 
 type CartLine = {
   product_id?: string;
@@ -82,6 +83,23 @@ export async function POST(req: Request) {
   if (user) {
     await admin.from("cart").delete().eq("user_id", user.id);
   }
+
+  // Odeslat potvrzovací email
+  sendOrderConfirmation({
+    to: body.email,
+    full_name: body.full_name,
+    order_number: order.order_number,
+    items: body.items.map((i) => ({
+      product_name: i.product_name,
+      quantity: i.quantity,
+      unit_price: i.unit_price,
+      subtotal: i.unit_price * i.quantity,
+    })),
+    total,
+    note: body.note,
+    rental_from: body.rental_from,
+    rental_to: body.rental_to,
+  }).catch((e) => console.error("Email error:", e)); // neblokuje response
 
   return NextResponse.json({ ok: true, order_number: order.order_number, id: order.id });
 }

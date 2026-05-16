@@ -1,6 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const FROM = process.env.RESEND_FROM ?? "Dekorento <noreply@dekorento.cz>";
 
 export type OrderEmailData = {
@@ -19,6 +18,8 @@ export async function sendOrderConfirmation(data: OrderEmailData) {
     console.warn("RESEND_API_KEY není nastavený — email nebyl odeslán");
     return;
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const itemsHtml = data.items
     .map(

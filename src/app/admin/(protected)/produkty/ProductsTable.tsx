@@ -146,6 +146,49 @@ export default function ProductsTable({ initial }: { initial: DbProduct[] }) {
   );
 }
 
+// Převede název na slug: "Béžové pozadí 2×2" → "bezove-pozadi-2x2"
+function toSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function UploadZone({
+  onFiles,
+  uploading,
+  dragLabel,
+}: {
+  onFiles: (f: FileList | File[]) => void;
+  uploading: number;
+  dragLabel?: string;
+}) {
+  const [dragOver, setDragOver] = useState(false);
+  return (
+    <label
+      className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl py-6 px-4 cursor-pointer transition-colors ${
+        dragOver ? "border-black bg-neutral-50" : "border-neutral-300 hover:border-neutral-500"
+      }`}
+      onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+      onDragLeave={() => setDragOver(false)}
+      onDrop={(e) => { e.preventDefault(); setDragOver(false); onFiles(e.dataTransfer.files); }}
+    >
+      <input type="file" accept="image/*" multiple className="sr-only"
+        onChange={(e) => e.target.files && onFiles(e.target.files)} />
+      {uploading > 0 ? (
+        <p className="text-sm text-neutral-500">Nahrávám {uploading} {uploading === 1 ? "soubor" : "soubory"}…</p>
+      ) : (
+        <>
+          <p className="text-sm font-medium">{dragLabel ?? "Přetáhni sem nebo klikni pro výběr"}</p>
+          <p className="text-xs text-neutral-400 mt-1">JPG, PNG, WEBP</p>
+        </>
+      )}
+    </label>
+  );
+}
+
 function ProductModal({
   value,
   onChange,
@@ -159,13 +202,18 @@ function ProductModal({
   onSave: () => void;
   busy: boolean;
 }) {
-  const [uploading, setUploading] = useState<number>(0); // count of files being uploaded
-  const [dragOver, setDragOver] = useState(false);
+  const [uploadingMain, setUploadingMain] = useState(0);
+  const [uploadingGallery, setUploadingGallery] = useState(0);
+  const [slugEdited, setSlugEdited] = useState(!!value.id); // u existujícího nepřepisuj
 
-  async function uploadFiles(files: FileList | File[]) {
+  async function doUpload(
+    files: FileList | File[],
+    setProgress: (fn: (n: number) => number) => void,
+    mode: "main" | "gallery"
+  ) {
     const arr = Array.from(files).filter((f) => f.type.startsWith("image/"));
     if (!arr.length) return;
-    setUploading((n) => n + arr.length);
+    setProgress((n) => n + arr.length);
     let updated = { ...value };
     for (const file of arr) {
       try {
@@ -178,31 +226,36 @@ function ProductModal({
         fd.append("timestamp", String(timestamp));
         fd.append("folder", folder);
         fd.append("signature", signature);
-        const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-          method: "POST",
-          body: fd,
-        });
+        const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { method: "POST", body: fd });
         const j = await r.json();
         if (!r.ok) throw new Error(j.error?.message ?? "upload error");
         const url: string = j.secure_url;
-        const imgs = [...(updated.images ?? []), url];
-        updated = { ...updated, image: updated.image || url, images: imgs };
+        if (mode === "main") {
+          updated = { ...updated, image: url };
+        } else {
+          const imgs = [...(updated.images ?? []).filter((u) => u !== url), url];
+          updated = { ...updated, images: imgs };
+        }
       } catch (e) {
         alert("Upload selhal: " + (e as Error).message);
       } finally {
-        setUploading((n) => n - 1);
+        setProgress((n) => n - 1);
       }
     }
     onChange(updated);
   }
 
-  function removeImage(url: string) {
+  function removeGalleryImage(url: string) {
     const imgs = (value.images ?? []).filter((u) => u !== url);
-    onChange({ ...value, images: imgs, image: imgs[0] ?? "" });
+    onChange({ ...value, images: imgs });
   }
 
-  function setMainImage(url: string) {
-    onChange({ ...value, image: url });
+  function handleNameChange(name: string) {
+    if (!slugEdited) {
+      onChange({ ...value, name, slug: toSlug(name) });
+    } else {
+      onChange({ ...value, name });
+    }
   }
 
   return (
@@ -216,33 +269,46 @@ function ProductModal({
         </div>
 
         <div className="p-6 space-y-4">
-          <Field label="Název">
+          {/* Název — generuje slug */}
+          <Field label="Název produktu">
             <input
               className="input"
+              placeholder="např. Béžové plátěné pozadí"
               value={value.name ?? ""}
-              onChange={(e) => onChange({ ...value, name: e.target.value })}
+              onChange={(e) => handleNameChange(e.target.value)}
             />
           </Field>
-          <Field label="Slug (URL)">
-            <input
-              className="input"
-              value={value.slug ?? ""}
-              onChange={(e) => onChange({ ...value, slug: e.target.value })}
-            />
+
+          {/* Slug — editovatelný, předvyplněný z názvu */}
+          <Field label="Adresa (slug)">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-neutral-400 whitespace-nowrap">/produkt/</span>
+              <input
+                className="input flex-1"
+                placeholder="bezove-platene-pozadi"
+                value={value.slug ?? ""}
+                onChange={(e) => { setSlugEdited(true); onChange({ ...value, slug: e.target.value }); }}
+              />
+            </div>
+            <p className="text-xs text-neutral-400 mt-1">Vyplní se automaticky z názvu, ale jde přepsat</p>
           </Field>
+
           <Field label="Popis">
             <textarea
               className="input min-h-24"
+              placeholder="Stručný popis produktu — materiál, použití, rozměry…"
               value={value.description ?? ""}
               onChange={(e) => onChange({ ...value, description: e.target.value })}
             />
           </Field>
+
           <div className="grid grid-cols-3 gap-4">
-            <Field label="Cena (Kč)">
+            <Field label="Cena (Kč / den)">
               <input
                 type="number"
                 className="input"
-                value={value.price ?? 0}
+                placeholder="např. 890"
+                value={value.price ?? ""}
                 onChange={(e) => onChange({ ...value, price: Number(e.target.value) })}
               />
             </Field>
@@ -250,54 +316,74 @@ function ProductModal({
               <input
                 type="number"
                 className="input"
-                value={value.stock ?? 0}
+                placeholder="1"
+                value={value.stock ?? ""}
                 onChange={(e) => onChange({ ...value, stock: Number(e.target.value) })}
               />
             </Field>
             <Field label="Štítek">
               <input
                 className="input"
-                placeholder="Bestseller…"
+                placeholder="např. Bestseller"
                 value={value.badge ?? ""}
                 onChange={(e) => onChange({ ...value, badge: e.target.value || null })}
               />
             </Field>
           </div>
+
           <Field label="Kategorie">
             <input
               className="input"
+              placeholder="např. Látková pozadí"
               value={value.category ?? ""}
               onChange={(e) => onChange({ ...value, category: e.target.value })}
             />
           </Field>
 
-          {/* ---- OBRÁZKY ---- */}
-          <div>
-            <label className="block text-sm font-medium mb-2">Obrázky produktu</label>
-            {/* náhledy */}
+          {/* ---- HLAVNÍ OBRÁZEK ---- */}
+          <div className="border border-neutral-200 rounded-xl p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold">Hlavní obrázek</span>
+              <span className="text-xs text-neutral-400">— zobrazí se jako náhled v e-shopu</span>
+            </div>
+            {value.image ? (
+              <div className="flex items-center gap-4">
+                <div className="relative w-28 h-28 rounded-xl overflow-hidden border border-neutral-200 shrink-0">
+                  <Image src={value.image} alt="" fill className="object-cover" sizes="112px" />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-xs text-neutral-500 break-all">{value.image.split("/").pop()}</p>
+                  <button
+                    onClick={() => onChange({ ...value, image: "" })}
+                    className="text-xs text-red-600 hover:underline"
+                  >
+                    Odebrat hlavní obrázek
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <UploadZone
+                onFiles={(f) => doUpload(f, setUploadingMain, "main")}
+                uploading={uploadingMain}
+                dragLabel="Nahrát hlavní obrázek"
+              />
+            )}
+          </div>
+
+          {/* ---- GALERIE ---- */}
+          <div className="border border-neutral-200 rounded-xl p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold">Galerie</span>
+              <span className="text-xs text-neutral-400">— další fotky, detaily, kontext prostředí</span>
+            </div>
             {(value.images ?? []).length > 0 && (
-              <div className="flex flex-wrap gap-3 mb-3">
+              <div className="flex flex-wrap gap-3">
                 {(value.images ?? []).map((url) => (
-                  <div key={url} className="relative group w-24 h-24 rounded-xl overflow-hidden border-2 border-neutral-200"
-                    style={{ borderColor: value.image === url ? "black" : undefined }}>
-                    <Image src={url} alt="" fill className="object-cover" sizes="96px" />
-                    {/* hlavní badge */}
-                    {value.image === url && (
-                      <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[10px] text-center py-0.5">
-                        Hlavní
-                      </span>
-                    )}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-1 transition-opacity">
-                      {value.image !== url && (
-                        <button
-                          onClick={() => setMainImage(url)}
-                          className="text-white text-[10px] bg-black/60 rounded px-1.5 py-0.5 hover:bg-black"
-                        >
-                          Nastavit hlavní
-                        </button>
-                      )}
+                  <div key={url} className="relative group w-20 h-20 rounded-lg overflow-hidden border border-neutral-200">
+                    <Image src={url} alt="" fill className="object-cover" sizes="80px" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                       <button
-                        onClick={() => removeImage(url)}
+                        onClick={() => removeGalleryImage(url)}
                         className="text-white text-[10px] bg-red-600/80 rounded px-1.5 py-0.5 hover:bg-red-600"
                       >
                         Odebrat
@@ -307,31 +393,11 @@ function ProductModal({
                 ))}
               </div>
             )}
-            {/* upload zóna */}
-            <label
-              className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl py-8 px-4 cursor-pointer transition-colors ${
-                dragOver ? "border-black bg-neutral-50" : "border-neutral-300 hover:border-neutral-500"
-              }`}
-              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-              onDragLeave={() => setDragOver(false)}
-              onDrop={(e) => { e.preventDefault(); setDragOver(false); uploadFiles(e.dataTransfer.files); }}
-            >
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="sr-only"
-                onChange={(e) => e.target.files && uploadFiles(e.target.files)}
-              />
-              {uploading > 0 ? (
-                <p className="text-sm text-neutral-500">Nahrávám {uploading} {uploading === 1 ? "soubor" : "soubory"}…</p>
-              ) : (
-                <>
-                  <p className="text-sm font-medium">Přetáhni sem obrázky nebo klikni pro výběr</p>
-                  <p className="text-xs text-neutral-400 mt-1">JPG, PNG, WEBP — lze vybrat více najednou</p>
-                </>
-              )}
-            </label>
+            <UploadZone
+              onFiles={(f) => doUpload(f, setUploadingGallery, "gallery")}
+              uploading={uploadingGallery}
+              dragLabel="Přetáhni sem více fotek nebo klikni"
+            />
           </div>
 
           <label className="flex items-center gap-2">

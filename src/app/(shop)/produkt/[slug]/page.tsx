@@ -7,6 +7,7 @@ import ProductCard from "@/components/ProductCard";
 import AddToCartButton from "./AddToCartButton";
 import ProductGallery from "./ProductGallery";
 import Accordion from "./Accordion";
+import AvailabilityCalendar from "./AvailabilityCalendar";
 
 export const dynamic = "force-dynamic";
 
@@ -110,6 +111,10 @@ export default async function ProductPage({
           <p>Pronájem je vždy na dohodnutý počet dní. Záloha je vratná po vrácení v pořádku.</p>
         </div>
       ),
+    },
+    {
+      label: "Dostupnost",
+      content: <AvailabilityCalendar productId={product.id} />,
     },
   ];
 

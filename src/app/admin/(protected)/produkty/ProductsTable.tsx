@@ -159,39 +159,50 @@ function ProductModal({
   onSave: () => void;
   busy: boolean;
 }) {
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState<number>(0); // count of files being uploaded
+  const [dragOver, setDragOver] = useState(false);
 
-  async function uploadImage(file: File) {
-    setUploading(true);
-    try {
-      const sigRes = await fetch("/api/admin/upload", { method: "POST" });
-      if (!sigRes.ok) throw new Error("Chybí Cloudinary konfigurace");
-      const { cloudName, apiKey, timestamp, folder, signature } = await sigRes.json();
-
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("api_key", apiKey);
-      fd.append("timestamp", String(timestamp));
-      fd.append("folder", folder);
-      fd.append("signature", signature);
-
-      const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        method: "POST",
-        body: fd,
-      });
-      const j = await r.json();
-      if (!r.ok) throw new Error(j.error?.message ?? "upload error");
-      const url: string = j.secure_url;
-      onChange({
-        ...value,
-        image: value.image || url,
-        images: [...(value.images ?? []), url],
-      });
-    } catch (e) {
-      alert("Upload selhal: " + (e as Error).message);
-    } finally {
-      setUploading(false);
+  async function uploadFiles(files: FileList | File[]) {
+    const arr = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (!arr.length) return;
+    setUploading((n) => n + arr.length);
+    let updated = { ...value };
+    for (const file of arr) {
+      try {
+        const sigRes = await fetch("/api/admin/upload", { method: "POST" });
+        if (!sigRes.ok) throw new Error("Chybí Cloudinary konfigurace");
+        const { cloudName, apiKey, timestamp, folder, signature } = await sigRes.json();
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("api_key", apiKey);
+        fd.append("timestamp", String(timestamp));
+        fd.append("folder", folder);
+        fd.append("signature", signature);
+        const r = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+          method: "POST",
+          body: fd,
+        });
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error?.message ?? "upload error");
+        const url: string = j.secure_url;
+        const imgs = [...(updated.images ?? []), url];
+        updated = { ...updated, image: updated.image || url, images: imgs };
+      } catch (e) {
+        alert("Upload selhal: " + (e as Error).message);
+      } finally {
+        setUploading((n) => n - 1);
+      }
     }
+    onChange(updated);
+  }
+
+  function removeImage(url: string) {
+    const imgs = (value.images ?? []).filter((u) => u !== url);
+    onChange({ ...value, images: imgs, image: imgs[0] ?? "" });
+  }
+
+  function setMainImage(url: string) {
+    onChange({ ...value, image: url });
   }
 
   return (
@@ -259,39 +270,68 @@ function ProductModal({
               onChange={(e) => onChange({ ...value, category: e.target.value })}
             />
           </Field>
-          <Field label="Hlavní obrázek (URL)">
-            <input
-              className="input"
-              value={value.image ?? ""}
-              onChange={(e) => onChange({ ...value, image: e.target.value })}
-            />
-          </Field>
-          <Field label="Galerie obrázků (čárkou oddělené URL)">
-            <textarea
-              className="input min-h-20"
-              value={(value.images ?? []).join(",\n")}
-              onChange={(e) =>
-                onChange({
-                  ...value,
-                  images: e.target.value.split(/[,\n]/).map((s) => s.trim()).filter(Boolean),
-                })
-              }
-            />
-          </Field>
 
+          {/* ---- OBRÁZKY ---- */}
           <div>
-            <label className="block text-sm font-medium mb-1.5">Nahrát obrázek (Cloudinary)</label>
-            <input
-              type="file"
-              accept="image/*"
-              disabled={uploading}
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) uploadImage(f);
-              }}
-              className="text-sm"
-            />
-            {uploading && <p className="text-sm text-neutral-500 mt-1">Nahrávám…</p>}
+            <label className="block text-sm font-medium mb-2">Obrázky produktu</label>
+            {/* náhledy */}
+            {(value.images ?? []).length > 0 && (
+              <div className="flex flex-wrap gap-3 mb-3">
+                {(value.images ?? []).map((url) => (
+                  <div key={url} className="relative group w-24 h-24 rounded-xl overflow-hidden border-2 border-neutral-200"
+                    style={{ borderColor: value.image === url ? "black" : undefined }}>
+                    <Image src={url} alt="" fill className="object-cover" sizes="96px" />
+                    {/* hlavní badge */}
+                    {value.image === url && (
+                      <span className="absolute bottom-0 left-0 right-0 bg-black/70 text-white text-[10px] text-center py-0.5">
+                        Hlavní
+                      </span>
+                    )}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center gap-1 transition-opacity">
+                      {value.image !== url && (
+                        <button
+                          onClick={() => setMainImage(url)}
+                          className="text-white text-[10px] bg-black/60 rounded px-1.5 py-0.5 hover:bg-black"
+                        >
+                          Nastavit hlavní
+                        </button>
+                      )}
+                      <button
+                        onClick={() => removeImage(url)}
+                        className="text-white text-[10px] bg-red-600/80 rounded px-1.5 py-0.5 hover:bg-red-600"
+                      >
+                        Odebrat
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+            {/* upload zóna */}
+            <label
+              className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl py-8 px-4 cursor-pointer transition-colors ${
+                dragOver ? "border-black bg-neutral-50" : "border-neutral-300 hover:border-neutral-500"
+              }`}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={(e) => { e.preventDefault(); setDragOver(false); uploadFiles(e.dataTransfer.files); }}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="sr-only"
+                onChange={(e) => e.target.files && uploadFiles(e.target.files)}
+              />
+              {uploading > 0 ? (
+                <p className="text-sm text-neutral-500">Nahrávám {uploading} {uploading === 1 ? "soubor" : "soubory"}…</p>
+              ) : (
+                <>
+                  <p className="text-sm font-medium">Přetáhni sem obrázky nebo klikni pro výběr</p>
+                  <p className="text-xs text-neutral-400 mt-1">JPG, PNG, WEBP — lze vybrat více najednou</p>
+                </>
+              )}
+            </label>
           </div>
 
           <label className="flex items-center gap-2">

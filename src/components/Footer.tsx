@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import NewsletterForm from "@/components/NewsletterForm";
 
 const Instagram = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -25,9 +24,6 @@ const Pinterest = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [done, setDone] = useState(false);
-
   return (
     <footer className="mt-24">
       {/* Newsletter — Halena 3-col layout */}
@@ -40,29 +36,7 @@ export default function Footer() {
             Posíláme novinky a speciální nabídky.<br />
             Bez spamu — slibujeme.
           </p>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              if (email) setDone(true);
-            }}
-            className="relative"
-          >
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="Váš e-mail"
-              className="w-full bg-transparent border-b border-black/40 focus:border-black outline-none py-4 pr-12 font-serif text-base placeholder:text-black/40"
-            />
-            <button
-              type="submit"
-              className="absolute right-0 top-1/2 -translate-y-1/2 text-black hover:opacity-60"
-              aria-label="Odeslat"
-            >
-              {done ? "✓" : <ArrowRight className="w-5 h-5" strokeWidth={1.5} />}
-            </button>
-          </form>
+          <NewsletterForm source="footer" />
         </div>
       </section>
 

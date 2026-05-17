@@ -28,7 +28,11 @@ export default async function ProductPage({
 
   const all = await dbGetProducts();
   const related = all.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
-  const gallery = product.images.length ? product.images : (product.image ? [product.image] : []);
+  // Hlavní obrázek vždy jako první, pak galerie bez duplikátů
+  const gallery = [
+    ...(product.image ? [product.image] : []),
+    ...(product.images ?? []).filter((u) => u !== product.image),
+  ];
 
   // Sestavení detailních řádků — jen ty co mají hodnotu
   const details: { label: string; value: string }[] = [

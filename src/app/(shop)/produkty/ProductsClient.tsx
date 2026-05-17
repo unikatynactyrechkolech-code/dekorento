@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { products, categories } from "@/lib/products";
+import type { Product } from "@/lib/types";
 import ProductCard from "@/components/ProductCard";
 import { SlidersHorizontal, X } from "lucide-react";
 
-export default function ProductsClient() {
+export default function ProductsClient({ products, categories }: { products: Product[]; categories: string[] }) {
   const sp = useSearchParams();
   const initialCat = sp.get("cat") || "";
   const initialQ = sp.get("q") || "";

@@ -2,18 +2,16 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Truck, ShieldCheck, Sparkles } from "lucide-react";
-import { getProduct, products } from "@/lib/products";
+import { dbGetProduct, dbGetProducts } from "@/lib/db-products";
 import { formatPrice } from "@/lib/format";
 import ProductCard from "@/components/ProductCard";
 import AddToCartButton from "./AddToCartButton";
 
-export async function generateStaticParams() {
-  return products.map(p => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await dbGetProduct(slug);
   if (!p) return { title: "Produkt nenalezen" };
   return { title: `${p.name} — Dekorento` };
 }
@@ -24,10 +22,11 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const product = await dbGetProduct(slug);
   if (!product) notFound();
 
-  const related = products.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
+  const all = await dbGetProducts();
+  const related = all.filter(p => p.category === product.category && p.id !== product.id).slice(0, 4);
   const gallery = product.images.length ? product.images : [product.image];
 
   return (

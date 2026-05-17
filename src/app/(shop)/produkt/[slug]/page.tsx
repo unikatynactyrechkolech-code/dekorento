@@ -7,7 +7,7 @@ import ProductCard from "@/components/ProductCard";
 import AddToCartButton from "./AddToCartButton";
 import ProductGallery from "./ProductGallery";
 import Accordion from "./Accordion";
-import AvailabilityCalendar from "./AvailabilityCalendar";
+import AvailabilitySection from "./AvailabilitySection";
 
 export const dynamic = "force-dynamic";
 
@@ -112,10 +112,6 @@ export default async function ProductPage({
         </div>
       ),
     },
-    {
-      label: "Dostupnost",
-      content: <AvailabilityCalendar productId={product.id} />,
-    },
   ];
 
   return (
@@ -149,8 +145,9 @@ export default async function ProductPage({
             ))}
           </div>
 
-          <div className="mt-8">
+          <div className="mt-8 space-y-3">
             <AddToCartButton product={product} />
+            <AvailabilitySection productId={product.id} />
           </div>
 
           <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">

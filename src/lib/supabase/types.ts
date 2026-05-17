@@ -15,6 +15,14 @@ export type DbProduct = {
   tags: string[];
   badge: string | null;
   active: boolean;
+  // Detailní info
+  material: string | null;
+  size: string | null;
+  stojan: string | null;
+  doprava: string | null;
+  video_url: string | null;
+  requires_construction: boolean;
+  construction_price: number;
   created_at: string;
   updated_at: string;
 };

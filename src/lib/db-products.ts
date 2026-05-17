@@ -15,6 +15,13 @@ function dbToProduct(p: DbProduct): Product {
     tags: p.tags ?? [],
     description: p.description ?? "",
     badge: p.badge ?? undefined,
+    material: p.material ?? undefined,
+    size: p.size ?? undefined,
+    stojan: p.stojan ?? undefined,
+    doprava: p.doprava ?? undefined,
+    video_url: p.video_url ?? undefined,
+    requires_construction: p.requires_construction,
+    construction_price: p.construction_price,
   };
 }
 

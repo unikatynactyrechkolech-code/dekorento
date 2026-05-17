@@ -340,6 +340,53 @@ function ProductModal({
             />
           </Field>
 
+          {/* ---- DETAILNÍ INFORMACE ---- */}
+          <div className="border border-neutral-200 rounded-xl p-4 space-y-4">
+            <p className="text-sm font-semibold">Detailní informace o produktu</p>
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Materiál">
+                <input
+                  className="input"
+                  placeholder="např. 100% polyester, bavlna…"
+                  value={(value as Partial<DbProduct & { material: string }>).material ?? ""}
+                  onChange={(e) => onChange({ ...value, material: e.target.value } as Partial<DbProduct>)}
+                />
+              </Field>
+              <Field label="Rozměr">
+                <input
+                  className="input"
+                  placeholder="např. 2,4 × 2,4 m"
+                  value={value.size ?? ""}
+                  onChange={(e) => onChange({ ...value, size: e.target.value })}
+                />
+              </Field>
+              <Field label="Stojan / Konstrukce">
+                <input
+                  className="input"
+                  placeholder="např. Volitelně za 500 Kč"
+                  value={(value as Partial<DbProduct & { stojan: string }>).stojan ?? ""}
+                  onChange={(e) => onChange({ ...value, stojan: e.target.value } as Partial<DbProduct>)}
+                />
+              </Field>
+              <Field label="Doprava">
+                <input
+                  className="input"
+                  placeholder="např. Praha + okolí, ČR po dohodě"
+                  value={(value as Partial<DbProduct & { doprava: string }>).doprava ?? ""}
+                  onChange={(e) => onChange({ ...value, doprava: e.target.value } as Partial<DbProduct>)}
+                />
+              </Field>
+            </div>
+            <Field label="Video manuál (YouTube/Vimeo URL)">
+              <input
+                className="input"
+                placeholder="https://www.youtube.com/watch?v=…"
+                value={value.video_url ?? ""}
+                onChange={(e) => onChange({ ...value, video_url: e.target.value })}
+              />
+            </Field>
+          </div>
+
           {/* ---- HLAVNÍ OBRÁZEK ---- */}
           <div className="border border-neutral-200 rounded-xl p-4 space-y-3">
             <div className="flex items-center gap-2">

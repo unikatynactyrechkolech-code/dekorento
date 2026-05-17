@@ -9,6 +9,14 @@ export type Product = {
   tags: string[];
   description: string;
   badge?: string;
+  // Detailní info — vyplňuje admin
+  material?: string;
+  size?: string;
+  stojan?: string;
+  doprava?: string;
+  video_url?: string;
+  requires_construction?: boolean;
+  construction_price?: number;
 };
 
 export type CartItem = {
